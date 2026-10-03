@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A prompt edit is a deploy, so size the retest first</title>
+<style>
+body{font:16px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif;max-width:42rem;margin:2rem auto;padding:0 1rem;color:#14161a;background:#fbfcfc}
+h1{font-size:1.4rem;margin-bottom:.3rem}
+p{margin:.5rem 0}
+a{color:#0a58ca}
+footer{margin-top:2.6rem;color:#555;font-size:.9rem}
+</style>
+</head>
+<body>
+<h1>A prompt edit is a deploy, so size the retest first</h1>
+<p>Prompt libraries grow by copying. A formatting fragment written once ends up inherited by dozens of production prompts, and an edit to it lands in every dependent at the same time. Treating the change like a deploy starts with counting the dependents, which is the premise of the prompt dependency work at <a href="https://pastagi.com/">PastAGI</a>: retest sets sized by graph, then priced.</p>
+
+<p>Take a library of 200 production prompts where 30 inherit one shared fragment. A wording change to that fragment puts 30 prompts in the blast radius. Grading each prompt against 40 fixed cases means 1,200 graded runs, and at 12 seconds each that is 4 hours of eval runtime for one sentence of editing. That runtime explains why the retest gets skipped, and a skipped retest is how a formatting regression reaches every dependent call on the same day.</p>
+
+<p>Sampling shrinks the bill. Grade 10 of the 30 dependents first, and if the change moved 6 of them, the impact estimate across the set is about 60 percent, so full review narrows to roughly 18 prompts. The retest drops from 30 to 18, a 40 percent cut, before any optimization of the cases themselves. The judgment call left over is the threshold: how large an output delta counts as a break, which belongs in the plan beside the fragment edit rather than after it.</p>
+
+<p>The habit worth building is writing the dependent count into the edit itself. If nobody can say how many prompts inherit the fragment, the change is unbounded, and the safe move is a new fragment version with a staged migration. Versioning costs one extra string in the library. An unbounded edit can cost a week of silent drift that nobody attributes.</p>
+
+<footer>James Verlander, PastAGI</footer>
+</body>
+</html>
